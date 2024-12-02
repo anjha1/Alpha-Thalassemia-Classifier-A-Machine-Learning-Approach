@@ -1,102 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alpha Thalassemia Predictor</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300vh;
+            color: #fff;
+            animation: gradientAnimation 10s ease infinite;
         }
+
+        @keyframes gradientAnimation {
+            0% { background: linear-gradient(45deg, #6a11cb, #727c8d); }
+            50% { background: linear-gradient(45deg, #ff7e5f, #20d0c7); }
+            100% { background: linear-gradient(45deg, #6a11cb, #c25959); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
+
         label {
-            display: inline-block;
-            width: 150px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
         }
+
         input {
-            padding: 5px;
-            margin: 5px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 5px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease-in-out;
         }
+
+        input:focus {
+            border-color: #4CAF50;
+            background-color: #eaffec;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
+
         button:hover {
-            background-color: #45a049;
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: scale(1.05);
+        }
+
+        .prediction-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eef5e6;
+            border-left: 5px solid #4CAF50;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            border-radius: 8px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* .form-group input[type="number"] {
+            -moz-appearance: textfield;
+            -webkit-appearance: none;
+        } */
+
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Add smooth focus effects */
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.8);
         }
     </style>
 </head>
 <body>
-    <h1>Alpha Thalassemia Predictor</h1>
-    <form action="{{ url_for('predict') }}" method="post">
-        <div class="form-group">
-            <label>Hemoglobin (Hb):</label>
-            <input type="number" step="0.1" name="hb" required>
+    <div class="container">
+        <h1>Alpha Thalassemia Predictor</h1>
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="hb">Hemoglobin (Hb):</label>
+                <input type="number" step="0.1" name="hb" id="hb" required>
+            </div>
+            <div class="form-group">
+                <label for="pcv">PCV:</label>
+                <input type="number" step="0.1" name="pcv" id="pcv" required>
+            </div>
+            <div class="form-group">
+                <label for="rbc">RBC:</label>
+                <input type="number" step="0.01" name="rbc" id="rbc" required>
+            </div>
+            <div class="form-group">
+                <label for="mcv">MCV:</label>
+                <input type="number" step="0.1" name="mcv" id="mcv" required>
+            </div>
+            <div class="form-group">
+                <label for="mch">MCH:</label>
+                <input type="number" step="0.1" name="mch" id="mch" required>
+            </div>
+            <div class="form-group">
+                <label for="mchc">MCHC:</label>
+                <input type="number" step="0.1" name="mchc" id="mchc" required>
+            </div>
+            <div class="form-group">
+                <label for="rdw">RDW:</label>
+                <input type="number" step="0.1" name="rdw" id="rdw" required>
+            </div>
+            <div class="form-group">
+                <label for="wbc">WBC:</label>
+                <input type="number" step="0.1" name="wbc" id="wbc" required>
+            </div>
+            <div class="form-group">
+                <label for="neut">Neutrophils:</label>
+                <input type="number" step="0.1" name="neut" id="neut" required>
+            </div>
+            <div class="form-group">
+                <label for="lymph">Lymphocytes:</label>
+                <input type="number" step="0.1" name="lymph" id="lymph" required>
+            </div>
+            <div class="form-group">
+                <label for="plt">Platelets:</label>
+                <input type="number" step="1" name="plt" id="plt" required>
+            </div>
+            <div class="form-group">
+                <label for="hba">HbA:</label>
+                <input type="number" step="0.1" name="hba" id="hba" required>
+            </div>
+            <div class="form-group">
+                <label for="hba2">HbA2:</label>
+                <input type="number" step="0.1" name="hba2" id="hba2" required>
+            </div>
+            <div class="form-group">
+                <label for="hbf">HbF:</label>
+                <input type="number" step="0.01" name="hbf" id="hbf" required>
+            </div>
+            <button type="submit">Predict</button>
+        </form>
+        <div class="prediction-result">
+            {{ prediction_text }}
         </div>
-        <div class="form-group">
-            <label>PCV:</label>
-            <input type="number" step="0.1" name="pcv" required>
-        </div>
-        <div class="form-group">
-            <label>RBC:</label>
-            <input type="number" step="0.01" name="rbc" required>
-        </div>
-        <div class="form-group">
-            <label>MCV:</label>
-            <input type="number" step="0.1" name="mcv" required>
-        </div>
-        <div class="form-group">
-            <label>MCH:</label>
-            <input type="number" step="0.1" name="mch" required>
-        </div>
-        <div class="form-group">
-            <label>MCHC:</label>
-            <input type="number" step="0.1" name="mchc" required>
-        </div>
-        <div class="form-group">
-            <label>RDW:</label>
-            <input type="number" step="0.1" name="rdw" required>
-        </div>
-        <div class="form-group">
-            <label>WBC:</label>
-            <input type="number" step="0.1" name="wbc" required>
-        </div>
-        <div class="form-group">
-            <label>Neutrophils:</label>
-            <input type="number" step="0.1" name="neut" required>
-        </div>
-        <div class="form-group">
-            <label>Lymphocytes:</label>
-            <input type="number" step="0.1" name="lymph" required>
-        </div>
-        <div class="form-group">
-            <label>Platelets:</label>
-            <input type="number" step="1" name="plt" required>
-        </div>
-        <div class="form-group">
-            <label>HbA:</label>
-            <input type="number" step="0.1" name="hba" required>
-        </div>
-        <div class="form-group">
-            <label>HbA2:</label>
-            <input type="number" step="0.1" name="hba2" required>
-        </div>
-        <div class="form-group">
-            <label>HbF:</label>
-            <input type="number" step="0.01" name="hbf" required>
-        </div>
-        <button type="submit">Predict</button>
-    </form>
-    <br>
-    <div>
-        {{ prediction_text }}
     </div>
 </body>
 </html>
